@@ -463,5 +463,5 @@ radar/
 
 <p align="center">
   <strong>RADAR</strong> — Risk Aware Detection And Recognition<br>
-  Intel 9th Cohort | 2026.04
+  Intel 9th Edge AI Bootcamp | 2026.04
 </p>
