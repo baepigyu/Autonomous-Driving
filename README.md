@@ -1,9 +1,9 @@
-# 🛡️ RADAR
+# RADAR
 ### Risk Aware Detection And Recognition
-**전쟁상황 기반 자율 정찰 로봇**
+**Autonomous Reconnaissance Robot for Warzone Scenarios**
 
-> TurtleBot3 Burger 기반의 자율주행 정찰 로봇으로, 실시간 SLAM과 YOLO 객체 탐지를 통합하여  
-> 미지의 전장 환경에서 군인·전차를 탐지하고 위협 위치를 자동으로 지도에 마킹합니다.
+> A TurtleBot3 Burger-based autonomous reconnaissance robot that integrates real-time SLAM and YOLO object detection to identify soldiers and tanks in unknown battlefield environments
+> automatically marking threat locations on the map.
 
 <br>
 
@@ -19,197 +19,192 @@
   <img src="https://img.shields.io/badge/Period-2026.04.13~04.27-gray"/>
 </p>
 
----
+## Contents
 
-## 📋 목차
-
-- [프로젝트 배경](#-프로젝트-배경)
-- [시연 영상](#-시연-영상)
-- [팀 구성](#-팀-구성)
-- [시스템 구조](#-시스템-구조)
-- [주요 기능](#-주요-기능)
+- [Project Background](#-project-background)
+- [Demo](#-demo)
+- [Team](#-team)
+- [System Architecture](#-system-architecture)
+- [Key Features](#-key-features)
 - [AI · Perception](#-ai--perception)
 - [Path Algorithm](#-path-algorithm)
-- [Qt 전술 HUD](#-qt-전술-hud)
-- [성능 지표](#-성능-지표)
-- [기술 스택](#-기술-스택)
-- [설치 및 실행](#-설치-및-실행)
-- [트러블 슈팅](#-트러블-슈팅)
-- [향후 계획](#-향후-계획)
+- [Qt Tactical HUD](#-qt-tactical-hud)
+- [Performance Metrics](#-performance-metrics)
+- [Technical Stack](#-technical-stack)
+- [Install](#-install)
+- [Trouble Shooting](#-trouble-shooting)
+- [Plan](#-plan)
 
 ---
 
-## 🎯 프로젝트 배경
-현대 전장 환경은 두 가지 구조적 위기에 직면해 있다.
+## 🎯 Project Background
+The modern battlefield faces two structural crises.
 
-1. 가용 병력의 급격한 감소
-우크라이나-러시아 전쟁에서 수만 명의 인명 피해가 발생하는 등 유인 전투 방식의 한계가 명확히 드러나고 있다.
-한국 역시 저출생 영향으로 가용 병력이 급격히 감소할 전망이다.
-연도가용 병력2021약 29만 명2040약 13만 명 (전망)
-이는 단순한 숫자 감소가 아닌, 실질적인 전력 공백으로 직결되는 안보 위기다.
+1. **Rapid Decline in Available Manpower**
+The limitations of manned combat have become evident, with tens of thousands of casualties in the Ukraine-Russia war.
+South Korea also faces a sharp decline in available manpower due to its low birth rate.
 
-2. 군사력 운용의 비용 구조 문제
-인간 병력 1인 유지에는 훈련비, 급여, 의료·복지, 전사 시 보상까지 포함한 생애주기 비용이 상당하다.
-반면 무인 시스템은 초기 도입 이후 운용·유지비가 현저히 낮으며, 인명 손실에 따른 사회적·재정적 부담이 발생하지 않는다.
-구분유인 체계무인 체계임무당 운용 비용기준 (100%)약 1/10 수준인명 손실 리스크높음없음장기 유지 비용급여·복지·보상 포함유지·보수비만 발생
+| Year | Available Troops |
+|:---:|:---:|
+| 2021 | ~290,000 |
+| 2040 | ~130,000 (projected) |
 
-미 국방부 연구에 따르면 무인 정찰 플랫폼의 임무당 비용은 유인 체계 대비 최대 1/10 수준으로, 장기적 관점에서 압도적인 비용 효율성을 지닌다.
+This is not merely a numbers problem — it represents a direct national security crisis in the form of a real combat power gap.
+
+2. **Cost Structure of Military Operations**
+Maintaining a single human soldier involves significant lifecycle costs, including training, salary, healthcare, welfare, and compensation in the event of death.
+Unmanned systems, by contrast, have significantly lower operational and maintenance costs after initial deployment, with no social or financial burden from casualties.
 
 
-✅ 결론
-RADAR는 자율주행과 실시간 AI 탐지 기술을 결합하여, 인간 병력을 위험 환경에 직접 투입하지 않고도 전장 상황을 효과적으로 모니터링하는 무인 정찰 시스템이다.
-이는 병력 감소 문제를 보완하는 동시에, 군사력 운용의 경제성과 생존성을 동시에 제고하는 전략적 해결책이다.
+
+**Conclusion**
+RADAR is an unmanned reconnaissance system that combines autonomous navigation and real-time AI detection to effectively monitor battlefield conditions without deploying human soldiers into hazardous environments.
+It addresses the manpower shortage while simultaneously improving both the economic efficiency and survivability of military operations.
 
 ---
 
-## 🎬 시연 영상
+## Demo Video
 
-| # | 내용 | 링크 |
+| # | Description | Link |
 |---|------|------|
-| 1 | 실시간 자율주행 (1) | [▶ YouTube](https://youtube.com/shorts/bUdc0pBeM_Q) |
-| 2 | 실시간 자율주행 (2) | [▶ YouTube](https://youtube.com/shorts/fysW5ICRKj0) |
+| 1 | Real-time Autonomous Navigation (1) | [▶ YouTube](https://youtube.com/shorts/bUdc0pBeM_Q) |
+| 2 | Real-time Autonomous Navigation (2) | [▶ YouTube](https://youtube.com/shorts/fysW5ICRKj0) |
 
 
-| Qt HUD 실행 화면 | 실제 주행 환경 |
+| Qt HUD Interface | Actual Driving Environment |
 |:---:|:---:|
 | <img src="https://github.com/user-attachments/assets/602f4f2d-4024-4984-87dd-25ba4aba7e11" width="400"/> | <img src="assets/demo_field.jpg" width="400"/> |
-| **SLAM 맵 생성 결과** | **YOLO 탐지 결과** |
+| **SLAM Map Result** | **YOLO Detection Result** |
 | <img src="assets/slam_map.png" width="400"/> | <img src="assets/yolo_detection.png" width="400"/> |
 
 ---
 
-## 👥 팀 구성
+## Team Members
 
-**소속:** Intel 9기  
-**프로젝트 기간:** 2026.04.13 ~ 2026.04.27
+**Affiliation:** Intel 9th Cohort
+**Project Period:** 2026.04.13 ~ 2026.04.27
 
-| 역할 | 이름 | 담당 |
+| Role | Name | Responsibilities |
 |:---:|:---:|:---|
-| **TL** | 윤성진 | SLAM · 실시간 맵핑 및 자율주행 |
-| **DTL / PM** | 배현규 | AI Perception · YOLO 학습 · Depth Estimation ML |
-| **LE** | 안형준 | Overall Development · 시스템 통합 · Reactive 알고리즘 |
-| **AE** | 박상호 | Simul UI/UX · Qt HUD · Gazebo 시뮬레이션 |
+| **TL** | Yoon Sungjin | SLAM · Real-time Mapping & Autonomous Navigation |
+| **DTL / PM** | Bae Hyungyu | AI Perception · YOLO Training · Depth Estimation ML |
+| **LE** | An Hyungjun | Overall Development · System Integration · Reactive Algorithm |
+| **AE** | Park Sangho | Simulation UI/UX · Qt HUD · Gazebo Simulation |
 
 ---
 
-## 🏗️ 시스템 구조
+## System Architecture
 
 <img src="assets/System Architecture.png" width="991" height="753"/>
 
-### 실행 순서
+### Execution Order
 
 ```bash
-# 1. Pi: 로봇 구동
+# 1. Pi: Launch robot bringup
 bash ~/run_bringup.sh
 
-# 2. Pi: YOLO 추론 시작
+# 2. Pi: Start YOLO inference
 bash ~/run_yolo.sh
 
-# 3. Ubuntu: SLAM 시작
+# 3. Ubuntu: Start SLAM
 bash ~/bin/run_slam.sh
 
-# 4. Ubuntu: map 프레임 생성 확인 후 마커 노드 시작
+# 4. Ubuntu: Confirm map frame, then start marker node
 bash ~/run_marker.sh
 
-# 5. Ubuntu: 자율주행 노드 시작
+# 5. Ubuntu: Start autonomous navigation node
 bash ~/run_reactive.sh
 
-# 6. Ubuntu: RViz 시각화
+# 6. Ubuntu: RViz visualization
 bash ~/run_rviz.sh
 ```
 
 ---
 
-## ✨ 주요 기능
+## Features
 
-### 1. 실시간 SLAM 맵핑
-- LDS-02 LiDAR 기반 사전 지도 없이 실시간 점유 격자 지도 생성
-- SLAM Toolbox (ROS2 Humble) 적용
-- RViz2를 통한 실시간 맵 시각화
+### 1. Real-time SLAM Mapping
+- Real-time occupancy grid map generation without a prior map, using LDS-02 LiDAR
+- SLAM Toolbox (ROS2 Humble) applied
+- Real-time map visualization via RViz2
 
-### 2. YOLO 기반 위협 객체 탐지
-- 군인(class 0) / 전차(class 1) 실시간 탐지
-- Knowledge Distillation으로 경량화된 YOLO11n 모델 사용
-- NCNN 변환을 통해 라즈베리파이에서 5FPS 실시간 추론
+### 2. YOLO-based Threat Object Detection
+- Real-time detection of soldiers (class 0) / tanks (class 1)
+- Lightweight YOLO11n model via Knowledge Distillation
+- Real-time inference at 5FPS on Raspberry Pi via NCNN conversion
 
-### 3. SLAM-YOLO 융합 위협 지도 자동 생성
-- TF2 좌표 변환으로 탐지 객체를 맵 좌표계에 등록
-- XGBoost를 이용한 ML 거리추정으로 마커 정확도 향상
-- 3회 확정 카운트 기반 오탐지 필터링
-- 군인 → 초록 마커 / 전차 → 빨간 마커
+### 3. SLAM-YOLO Fusion for Automatic Threat Map Generation
+- Detected objects registered in map coordinate frame via TF2 transform
+- ML-based distance estimation using XGBoost for improved marker accuracy
+- False positive filtering with 3-confirmation count threshold
+- Soldier → green marker / Tank → red marker
 
-### 4. 위협 연동 자율 회피 순찰
-- 확정 위협 좌표 접근 시 자동 유턴 (40cm 이내)
-- Visited Grid Map으로 미탐색 구역 우선 순찰
-- 위험 구역 블랙리스트(penalty=50) 자동 등록
+### 4. Threat-aware Autonomous Avoidance Patrol
+- Automatic U-turn when approaching a confirmed threat within 40cm
+- Unvisited area prioritized via Visited Grid Map
+- Danger zones automatically blacklisted (penalty=50)
 
-### 5. Qt 전술 HUD 통합 모니터링
-- 레이더 스코프 / YOLO 카메라 / SLAM 맵 / 나침반 / 적 위치 통합 표시
-- 텔레오프(수동 조작) 모드 전환 지원
-- 배터리 잔량 실시간 모니터링
-
----
-
-## 🤖 AI · Perception
-
-### YOLO 학습 과정
+### 5. Qt Tactical HUD Integrated Monitoring
+- Unified display: radar scope / YOLO camera / SLAM map / compass / enemy positions
+- Teleop (manual control) mode switching supported
+- Real-time battery level monitoring
 
 
-| 단계 | 데이터셋 | Soldier mAP50 | Tank mAP50 | mAP60 |
+
+## AI · Perception
+
+### YOLO Training
+
+| Stage | Dataset | Soldier mAP50 | Tank mAP50 | mAP50 |
 |:---:|:---:|:---:|:---:|:---:|
-| 1차 (Roboflow, 900장) | 외부 데이터 | 0.097 | 0.073 | 0.040 |
-| 2차 (직접 수집, 525장) | 직접 촬영 | 0.835 | 0.895 | 0.865 |
-| **KD 적용 (YOLO11n KD)** | **직접 촬영** | **0.862** | **0.917** | **0.889** |
-| YOLO11m (참고용) | 직접 촬영 | 0.879 | 0.927 | 0.904 |
+| Round 1 (Roboflow, 900 images) | External data | 0.097 | 0.073 | 0.040 |
+| Round 2 (Self-collected, 525 images) | Self-captured | 0.835 | 0.895 | 0.865 |
+| **KD Applied (YOLO11n KD)** | **Self-captured** | **0.862** | **0.917** | **0.889** |
+| YOLO11m (reference) | Self-captured | 0.879 | 0.927 | 0.904 |
 
-#### 수집 데이터
+#### Collected Data
 <img src="assets/yolo_data_img.png" width="991" height="753"/>
 
 ### Knowledge Distillation
 
-YOLO11n(2.6M) 크기를 유지하면서 YOLO11m(20.1M) 수준의 성능을 달성하기 위해  
-Knowledge Distillation을 적용했습니다.
+Knowledge Distillation was applied to achieve YOLO11m (20.1M)-level performance
+while maintaining the YOLO11n (2.6M) model size.
 
 ```
-KD Loss = α × YOLO Loss + (1-α) × Teacher Loss
-
-- YOLO Loss   = Box Loss + Class Loss + DFL Loss
-- Teacher Loss = Teacher Box Loss + Teacher Class Loss + Teacher DFL Loss
+> **Result:** **2.4% mAP improvement** over YOLO11n while maintaining 2.6M parameters
 ```
-
-> **결과:** YOLO11n 대비 **2.4% mAP 향상**을 2.6M 파라미터 유지하면서 달성
 
 ### Depth Estimation (XGBoost)
 
-Depth Camera의 부하·노이즈 문제를 해결하기 위해 ML 기반 거리 추정 모델을 구축했습니다.
+An ML-based distance estimation model was built to address the load and noise issues of depth cameras.
 
-- **데이터 수집:** Depth Camera + TurtleBot + Bounding Box 조합 650개
-- **Feature (42개):** Bounding Box 좌표, 객체 크기, IMU, ratio 등
-- **모델 비교:** Random Forest / Linear Regression / **XGBoost** / LightGBM
-- **최종 모델:** XGBoost (Feature Importance 기반 불필요 feature 제거)
+- **Data Collection:** 650 samples combining Depth Camera + TurtleBot + Bounding Box
+- **Features (42):** Bounding box coordinates, object size, IMU, aspect ratio, etc.
+- **Models Compared:** Random Forest / Linear Regression / **XGBoost** / LightGBM
+- **Final Model:** XGBoost (unnecessary features removed via Feature Importance)
 - **Test MAE: 3.8cm**
 
 ---
 
 ## 🗺️ Path Algorithm
 
-### 장애물 회피
-1. 전방 장애물 감지 → `escaping = True`
-2. 좌우 거리 비교 → 여유 공간 방향으로 회전
-3. 정면이 클리어되고 timeout 경과 → 탈출 완료
+### Obstacle Avoidance
+1. Detect frontal obstacle → `escaping = True`
+2. Compare left/right distance → rotate toward side with more clearance
+3. Once front is clear and timeout elapsed → escape complete
 
-### 적군 탐지 & 유턴
-1. YOLO 탐지 → `/detections` 발행
-2. `detection_marker_node`에서 3회 확정 → `/danger_detected` 발행
-3. `reactive_patrol_node`에서 위험 좌표 저장
-4. 위험 좌표 40cm 이내 접근 시 유턴 시작
-5. `STOP(3s) → ROTATE(5s) → ESCAPE(2s) → FORWARD(1s)` 순서로 회피
+### Enemy Detection & U-turn
+1. YOLO detection → publish `/detections`
+2. `detection_marker_node` confirms after 3 detections → publish `/danger_detected`
+3. `reactive_patrol_node` stores threat coordinates
+4. U-turn triggered when approaching threat within 40cm
+5. Avoidance sequence: `STOP(3s) → ROTATE(5s) → ESCAPE(2s) → FORWARD(1s)`
 
-### 정상 주행 with 커버리지 최적화
-1. 벽 보정 주행 (좌우 critical distance 기반)
-2. Visited Grid Map으로 지나온 셀 카운트 기록
-3. 갈림길에서 방문 횟수가 적은 방향 우선 선택
-4. 위험 구역 주변 셀에 패널티(50) 부여 → 재접근 억제
+### Normal Navigation with Coverage Optimization
+1. Wall-following navigation based on left/right critical distances
+2. Visited Grid Map tracks visited cells
+3. At intersections, direction with fewer visits is prioritized
+4. Cells near danger zones receive a penalty (50) to suppress re-approach
 
 ---
 
@@ -232,31 +227,49 @@ Depth Camera의 부하·노이즈 문제를 해결하기 위해 ML 기반 거리
 
 ---
 
-## 📊 성능 지표
+## 🖥️ Qt Tactical HUD
 
-### Map 탐색 성능
+<img src="assets/qt_hud.png" width="600"/>
 
-| 지표 | Best Case | Average | 목표값 |
+**HUD Feature List**
+
+| Feature | Description |
+|:---|:---|
+| Login | User authentication and access control |
+| Radar Scope | Real-time LiDAR scan visualization |
+| Compass | Real-time heading angle display via IMU |
+| Camera | Live video with YOLO bounding box overlay |
+| LIDAR Map | SLAM occupancy grid display with markers |
+| Enemy Info | Detected enemy count and coordinates |
+| Battery State | Real-time battery level monitoring |
+| Manual Mode | Teleop manual control switching |
+
+---
+
+## Performance Metrics
+
+### Map Exploration Performance
+
+| Metric | Best Case | Average | Target |
 |:---:|:---:|:---:|:---:|
-| 맵 탐색율 | **96.2%** | 73.4% | 75% |
-| 마커 위치 오차 평균 | **10.5cm** | 22.3cm | 20~30cm |
-| 객체 미탐지 수 | **1개** | 1.7개 | 1개 이하 |
+| Map Coverage Rate | **96.2%** | 73.4% | 75% |
+| Avg. Marker Position Error | **10.5cm** | 22.3cm | 20~30cm |
+| Missed Detections | **1** | 1.7 | ≤1 |
 
-### YOLO 성능 요약
+### YOLO Performance Summary
 
-| 모델 | 파라미터 | Soldier mAP50 | Tank mAP50 | mAP50 |
+| Model | Parameters | Soldier mAP50 | Tank mAP50 | mAP50 |
 |:---:|:---:|:---:|:---:|:---:|
 | YOLO11n | 2.6M | 0.835 | 0.895 | 0.865 |
 | YOLO11n KD | 2.6M | 0.862 | 0.917 | **0.889** |
 | YOLO11m | 20.1M | 0.879 | 0.927 | 0.904 |
 
 ### Depth Estimation
-- **모델:** XGBoost
+- **Model:** XGBoost
 - **Test MAE:** 3.8cm
 
 ---
-
-## 🔧 기술 스택
+## 🔧 Technical Stack
 
 ### System & Dev
 ![C++](https://img.shields.io/badge/C++-00599C?logo=cplusplus&logoColor=white)
@@ -265,14 +278,14 @@ Depth Camera의 부하·노이즈 문제를 해결하기 위해 ML 기반 거리
 ![VSCode](https://img.shields.io/badge/VSCode-007ACC?logo=visualstudiocode&logoColor=white)
 
 ### Hardware
-| 부품 | 상세 |
+| Component | Details |
 |:---|:---|
-| 로봇 플랫폼 | TurtleBot3 Burger |
-| 온보드 컴퓨터 | Raspberry Pi 4 |
-| 모터 컨트롤러 | OpenCR |
+| Robot Platform | TurtleBot3 Burger |
+| Onboard Computer | Raspberry Pi 4 |
+| Motor Controller | OpenCR |
 | LiDAR | LDS-02 (10Hz, ~220 points) |
-| 카메라 | IMX219 PiCamera (640×480) |
-| 구동 모터 | Dynamixel XL430 |
+| Camera | IMX219 PiCamera (640×480) |
+| Drive Motor | Dynamixel XL430 |
 
 ### Robotics & Navigation
 ![ROS2](https://img.shields.io/badge/ROS2-Humble-22314E?logo=ros)
@@ -280,19 +293,17 @@ Depth Camera의 부하·노이즈 문제를 해결하기 위해 ML 기반 거리
 
 ### AI & Perception
 ![YOLO](https://img.shields.io/badge/YOLO-v11-purple)
-- Ultralytics YOLO11, NCNN (경량화), Roboflow (데이터셋)
+- Ultralytics YOLO11, NCNN (lightweight inference), Roboflow (dataset)
 - XGBoost (Depth Estimation)
 
-
 ### UI
-- Qt5 (전술 HUD)
+- Qt5 (Tactical HUD)
 
 ---
 
-## 🚀 설치 및 실행
+## 🚀 Install
 
-### 환경 요구사항
-
+### Requirements
 ```
 - Ubuntu 22.04
 - ROS2 Humble
@@ -302,29 +313,29 @@ Depth Camera의 부하·노이즈 문제를 해결하기 위해 ML 기반 거리
 - TURTLEBOT3_MODEL=burger
 ```
 
-### 의존성 설치
+### Install Dependencies
 
 ```bash
-# ROS2 Humble 설치 (Ubuntu PC)
+# ROS2 Humble packages (Ubuntu PC)
 sudo apt install ros-humble-slam-toolbox
 sudo apt install ros-humble-tf2-geometry-msgs
 sudo apt install ros-humble-visualization-msgs
 
-# Python 패키지
+# Python packages
 pip install ultralytics joblib pandas xgboost scikit-learn --break-system-packages
 
-# NCNN (Pi에서 설치)
+# NCNN (install on Pi)
 pip install ncnn --break-system-packages
 ```
 
-### 저장소 클론
+### Clone Repository
 
 ```bash
 git clone https://github.com/[YOUR_REPO]/radar.git
 cd radar
 ```
 
-### 실행 스크립트 권한 설정
+### Set Script Permissions
 
 ```bash
 chmod +x ~/run_bringup.sh
@@ -335,35 +346,35 @@ chmod +x ~/run_reactive.sh
 chmod +x ~/run_rviz.sh
 ```
 
-### 실행 (순서 중요)
+### Run (Order Matters)
 
 ```bash
-# [Pi 터미널 1] TurtleBot3 구동
+# [Pi Terminal 1] TurtleBot3 bringup
 bash ~/run_bringup.sh
 
-# [Pi 터미널 2] YOLO 추론 노드
+# [Pi Terminal 2] YOLO inference node
 bash ~/run_yolo.sh
 
-# [Ubuntu 터미널 1] SLAM
+# [Ubuntu Terminal 1] SLAM
 bash ~/bin/run_slam.sh
 
-# [Ubuntu 터미널 2] map 프레임 생성 확인 후
+# [Ubuntu Terminal 2] After confirming map frame
 bash ~/run_marker.sh
 
-# [Ubuntu 터미널 3] 자율주행
+# [Ubuntu Terminal 3] Autonomous navigation
 bash ~/run_reactive.sh
 
-# [Ubuntu 터미널 4] RViz 시각화
+# [Ubuntu Terminal 4] RViz visualization
 bash ~/run_rviz.sh
 ```
 
-### 포트 설정 (Pi - 재시작 시마다 확인)
+### Port Setup (Pi — check on every restart)
 
 ```bash
 sudo chmod 666 /dev/ttyACM*
 ```
 
-### 맵 저장
+### Save Map
 
 ```bash
 mkdir -p ~/maps
@@ -372,25 +383,24 @@ ros2 run nav2_map_server map_saver_cli -f ~/maps/patrol_map
 
 ---
 
-## 📁 프로젝트 구조
-
+## 📁 Project Structure
 ```
 radar/
 ├── autonomous_driving/
-│   ├── reactive_patrol_node.py       # 자율주행 메인 노드
-│   ├── detection_marker_node.py      # YOLO-SLAM 융합 마커 노드
+│   ├── reactive_patrol_node.py       # Main autonomous navigation node
+│   ├── detection_marker_node.py      # YOLO-SLAM fusion marker node
 │   └── ml/
-│       ├── xgb_y_model.pkl           # XGBoost Depth 추정 모델
-│       └── xgb_feature_y_cols.pkl    # Feature 컬럼 정보
+│       ├── xgb_y_model.pkl           # XGBoost depth estimation model
+│       └── xgb_feature_y_cols.pkl    # Feature column info
 │
 ├── project/
-│   └── yolo_picamera_to_ubuntu_compressed_default.py  # Pi YOLO 추론 노드
+│   └── yolo_picamera_to_ubuntu_compressed_default.py  # Pi YOLO inference node
 │
 ├── yolo/
-│   ├── weights/depth/                # YOLO .pt 가중치
-│   └── ncnn/                         # NCNN 변환 모델
+│   ├── weights/depth/                # YOLO .pt weights
+│   └── ncnn/                         # NCNN converted model
 │
-├── qt_hud/                           # Qt 전술 HUD 소스
+├── qt_hud/                           # Qt Tactical HUD source
 │
 ├── run_bringup.sh
 ├── run_yolo.sh
@@ -398,61 +408,60 @@ radar/
 ├── run_reactive.sh
 ├── run_rviz.sh
 └── bin/
-    └── run_slam.sh
+└── run_slam.sh
 ```
 
 ---
 
-## 🔥 트러블 슈팅
+## 🔥 Trouble Shooting
 
-### 1. Qt 카메라 딜레이
-| | 내용 |
+### 1. Qt Camera Delay
+| | Details |
 |:---|:---|
-| **원인** | 압축되지 않은 이미지 스트림으로 인한 네트워크 대역폭 초과 |
-| **이슈** | 카메라 지연이 다른 ROS2 노드 전체에 영향 |
-| **해결** | `CompressedImage` 토픽 사용 (`/yolo_camera/compressed`, JPEG q=55) |
+| **Cause** | Network bandwidth exceeded by uncompressed image stream |
+| **Issue** | Camera lag affected all other ROS2 nodes |
+| **Fix** | Used `CompressedImage` topic (`/yolo_camera/compressed`, JPEG q=55) |
 
-### 2. 주행 안정성
-| | 내용 |
+### 2. Navigation Stability
+| | Details |
 |:---|:---|
-| **원인** | Reactive 알고리즘의 좁은 통로·모서리 처리 미흡 |
-| **이슈** | 벽 모서리 충돌, 동일 경로 루프 반복 |
-| **해결** | 파라미터 튜닝 (100회 이상 테스트 주행), 벽 모서리 물리 범퍼 추가, Visited Grid Map 도입 |
+| **Cause** | Reactive algorithm insufficient for narrow corridors and corners |
+| **Issue** | Wall corner collisions, repeated loop on same path |
+| **Fix** | Parameter tuning (100+ test runs), physical bumper added at corners, Visited Grid Map introduced |
 
-### 3. 마커 위치 오차
-| | 내용 |
+### 3. Marker Position Error
+| | Details |
 |:---|:---|
-| **원인** | 로봇 회전 중 탐지 시 방향 오차 발생 |
-| **이슈** | 20~30° 마커 위치 오차 |
-| **해결** | `/robot_turning` 토픽으로 회전 중 마커 생성 차단, IMU + odom 이중 필터링 |
+| **Cause** | Heading error when detecting during robot rotation |
+| **Issue** | 20~30° marker position offset |
+| **Fix** | Blocked marker generation during rotation via `/robot_turning` topic; dual filtering with IMU + odom |
 
-### 4. TF 변환 실패
-| | 내용 |
+### 4. TF Transform Failure
+| | Details |
 |:---|:---|
-| **원인** | 이미지 stamp 기반 TF 조회 시 미래 시간 오류 |
-| **이슈** | `TransformException` 빈번 발생 |
-| **해결** | `stamp=0` (latest TF) fallback 로직 추가, TF buffer cache 10초로 확장 |
+| **Cause** | Future timestamp error when looking up TF based on image stamp |
+| **Issue** | Frequent `TransformException` |
+| **Fix** | Added `stamp=0` (latest TF) fallback logic; expanded TF buffer cache to 10 seconds |
 
 ---
 
-## 🔭 향후 계획
+## 🔭 Plan
 
-### 달성 목표 (단기)
-- [x] Real-time SLAM 구현
-- [x] Qt GUI 응답성 개선
-- [x] Perception 모델 고도화 (Knowledge Distillation)
-- [ ] Qt GUI UX 추가 개선
+### Short-term Goals
+- [x] Real-time SLAM implementation
+- [x] Qt GUI responsiveness improvement
+- [x] Perception model upgrade (Knowledge Distillation)
+- [ ] Further Qt GUI UX improvements
 
-### Future 목표 (장기)
-- [ ] **Multi-SLAM** — 복수 로봇 협력 맵핑
-- [ ] **3D Mapping** — 3D LiDAR 기반 입체 지도
-- [ ] **Visual SLAM** — 카메라 기반 SLAM
-- [ ] **SDV 성능 향상** — 더 빠르고 안정적인 자율주행
-
+### Long-term Goals
+- [ ] **Multi-SLAM** — Cooperative mapping with multiple robots
+- [ ] **3D Mapping** — Volumetric map using 3D LiDAR
+- [ ] **Visual SLAM** — Camera-based SLAM
+- [ ] **SDV Performance** — Faster and more stable autonomous navigation
 
 ---
 
 <p align="center">
   <strong>RADAR</strong> — Risk Aware Detection And Recognition<br>
-  Intel 9기 | 2026.04
+  Intel 9th Cohort | 2026.04
 </p>
